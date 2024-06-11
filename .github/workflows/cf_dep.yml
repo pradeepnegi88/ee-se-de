@@ -79,6 +79,15 @@ jobs:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
 
+      - name: Authenticate with Google Cloud
+        run: |
+          echo ${{ secrets.GCP_SA_KEY }} | base64 -d > /tmp/key.json
+          gcloud auth activate-service-account --key-file=/tmp/key.json
+
+      - name: Set gcloud config
+        run: |
+          gcloud config set account pradeep.negi@equalexperts.com
+
       - name: Deploy Cloud Function
         run: |
           gcloud functions deploy load_csv_to_bigquery \
@@ -88,3 +97,4 @@ jobs:
             --entry-point load_csv_to_bigquery \
             --set-env-vars DATASET_ID=ee-india-se-data.movies_data_pradeep,TABLE_ID=movies_raw \
             --source .
+
