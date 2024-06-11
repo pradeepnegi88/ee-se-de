@@ -98,6 +98,36 @@
 #             --set-env-vars DATASET_ID=ee-india-se-data.movies_data_pradeep,TABLE_ID=movies_raw \
 #             --source .
 
+# name: Deploy Cloud Function
+
+# on:
+#   push:
+#     branches:
+#       - master
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+
+    
+#       - name: Authenticate to Google Cloud
+#         uses: google-github-actions/auth@v1
+#         with:
+#           credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+#       - id: 'deploy'
+#         uses: 'google-github-actions/deploy-cloud-functions@v3'
+#         with:
+#           name: 'load_csv_to_bigquery'
+#           runtime: 'python310'
+#           entry_point: 'load_csv_to_bigquery'
+#           trigger_event: 'google.storage.object.finalize'
+#           trigger_resource: 'projects/${{ secrets.GCP_PROJECT_ID }}/buckets/se-data-landing-pradeep'
+#           env_vars: 'DATASET_ID=ee-india-se-data.movies_data_pradeep,TABLE_ID=movies_raw'
+#           source_dir: '.'
 name: Deploy Cloud Function
 
 on:
@@ -111,7 +141,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
     
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v1
@@ -124,9 +153,20 @@ jobs:
           name: 'load_csv_to_bigquery'
           runtime: 'python310'
           entry_point: 'load_csv_to_bigquery'
-          trigger_event: 'google.storage.object.finalize'
-          trigger_resource: 'projects/${{ secrets.GCP_PROJECT_ID }}/buckets/se-data-landing-pradeep'
-          env_vars: 'DATASET_ID=ee-india-se-data.movies_data_pradeep,TABLE_ID=movies_raw'
           source_dir: '.'
+          region: 'us-central1'
+          universe: 'googleapis.com'
+          environment: 'GEN_2'
+          all_traffic_on_latest_revision: true
+          ingress_settings: 'ALLOW_ALL'
+          service_timeout: '60s'
+          vpc_connector_egress_settings: 'PRIVATE_RANGES_ONLY'
+          event_trigger_retry: true
+          event_trigger_filters: '[{"attribute": "bucket", "value": "se-data-landing-pradeep"}]'
+          event_trigger_type: 'google.storage.object.finalize'
+          service_account_email: ${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
+        env:
+          CLOUDSDK_CORE_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
 
 
