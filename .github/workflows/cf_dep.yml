@@ -164,9 +164,5 @@ jobs:
           event_trigger_retry: true
           event_trigger_filters: '[{"attribute": "bucket", "value": "se-data-landing-pradeep"}]'
           event_trigger_type: 'google.storage.object.finalize'
-          service_account_email: ${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
         env:
           CLOUDSDK_CORE_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
-
-
