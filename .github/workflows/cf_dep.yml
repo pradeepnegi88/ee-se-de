@@ -1,14 +1,11 @@
 name: Deploy Cloud Function
 
-on:
-  pull_request:
-    branches:
-      - '*'
+on: [push]
 
 jobs:
   test:
     name: Run Tests
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
