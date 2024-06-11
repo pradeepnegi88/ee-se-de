@@ -1,16 +1,24 @@
 name: Deploy Cloud Function
 
 on:
-  push:
+  pull_request:
     branches:
-      - main
+      - '*'
 
 jobs:
-  deploy:
-    runs-on: self-hosted
+  test:
+    name: Run Tests
+    runs-on: macos-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Debug
+        run: |
+          ls -l
+          pwd
+          echo ${{ secrets.GCP_PROJECT_ID }}
+          echo ${{ secrets.GCP_SA_KEY }}
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
