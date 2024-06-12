@@ -166,3 +166,14 @@ jobs:
           event_trigger_type: 'google.storage.object.finalize'
         env:
           CLOUDSDK_CORE_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
+
+
+
+# gcloud functions deploy load_csv_to_bigquery \
+#     --runtime python310 \
+#     --trigger-resource se-data-landing-pradeep \
+#     --trigger-event google.storage.object.finalize \
+#     --entry-point load_csv_to_bigquery \
+#     --set-env-vars DATASET_ID=movies_data_pradeep,TABLE_ID=movies_raw \
+#     --project ee-india-se-data \
+#     --source .
