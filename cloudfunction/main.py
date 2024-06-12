@@ -6,7 +6,7 @@ def load_csv_to_bigquery(event, context):
     bucket_name = event['bucket']
     file_name = event['name']
 
-    dataset_id = "ee-india-se-data.movies_data_pradeep"
+    dataset_id = "movies_data_pradeep"
     table_id = "movies_raw"
     dataset_ref = client.dataset(dataset_id)
     table_ref = dataset_ref.table(table_id)
