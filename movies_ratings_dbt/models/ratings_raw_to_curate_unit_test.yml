@@ -1,0 +1,24 @@
+version: 2
+
+unit_tests:
+  - name: test_incremental_model_deduplication
+    description: "Test for the incremental model with deduplication"
+    model: ratings_raw_to_curate
+    overrides:
+      macros:
+        is_incremental: true
+    given:
+      - input: source('movies_data_pradeep', 'ratings_raw')
+        rows:
+          - { userId: 1, movieId: 101, rating: 4.5, timestamp: 1687305600, load_date: '2024-07-19' }
+          - { userId: 1, movieId: 101, rating: 4.0, timestamp: 1687192000, load_date: '2024-07-18' }
+          - { userId: 2, movieId: 202, rating: 3.5, timestamp: 1687120000, load_date: '2024-07-17' }
+          - { userId: 2, movieId: 202, rating: 3.8, timestamp: 1687305600, load_date: '2024-07-19' }
+      - input: this
+        rows:
+          - { userId: 1, movieId: 101, rating: 4.0, timestamp: 1687192000, load_date: '2024-07-18' }
+          - { userId: 2, movieId: 202, rating: 3.5, timestamp: 1687120000, load_date: '2024-07-17' }
+    expect:
+      rows:
+        - { userId: 1, movieId: 101, rating: 4.5, timestamp: 1687305600, converted_timestamp: '2023-06-21 00:00:00+00:00', load_date: '2024-07-19' }
+        - { userId: 2, movieId: 202, rating: 3.8, timestamp: 1687305600, converted_timestamp: '2023-06-21 00:00:00+00:00', load_date: '2024-07-19' }

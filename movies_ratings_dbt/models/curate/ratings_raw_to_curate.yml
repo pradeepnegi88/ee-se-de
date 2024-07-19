@@ -1,0 +1,62 @@
+version: 2
+
+models:
+  - name: ratings_raw_to_curate
+    description: |
+      This model processes raw ratings data, removing duplicates and transforming fields to their appropriate types.
+    columns:
+      - name: userId
+        description: |
+          The unique identifier for each user. This is a numeric value that has been cast from the original data source.
+        data_type: numeric
+        quote: true
+        tests:
+          - not_null
+      - name: movieId
+        description: |
+          The unique identifier for each movie. This is a numeric value that has been cast from the original data source.
+        data_type: numeric
+        quote: true
+        tests:
+          - not_null
+      - name: rating
+        description: |
+          The rating given by the user to a movie. This is a numeric value that has been cast from the original data source.
+        data_type: numeric
+        quote: true
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 10
+      - name: timestamp
+        description: |
+          The 'timestamp' column represents the time at which the rating was given by the user. It is stored as a numeric value.
+        data_type: numeric
+        quote: true
+        tests:
+          - not_null
+      - name: converted_timestamp
+        description: |
+          The 'converted_timestamp' column is a transformation of the 'timestamp' column into a more readable format. It is stored as a timestamp value.
+        data_type: timestamp
+        quote: true
+        tests:
+          - not_null
+      - name: load_date
+        description: |
+          The 'load_date' column represents the date when the data was loaded into the database. It is stored as a date value.
+        data_type: date
+        quote: true
+        tests:
+          - not_null
+
+tests:
+  - name: unique_user_movie_combination
+    description: "Ensure that each user-movie combination is unique."
+    columns:
+      - name: userId
+        tests:
+          - unique_combination_of_columns:
+              combinations:
+                - ['userId', 'movieId']

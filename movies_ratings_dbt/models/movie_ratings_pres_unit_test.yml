@@ -1,0 +1,30 @@
+version: 2
+unit_tests:
+  - name: test_movie_ratings_pres
+    model: movie_ratings_pres
+    description: "Test for the movie_ratings_pres model"
+    given:
+      - input:  ref('ratings_raw_to_curate')
+        rows:
+          - {movieId: 1, rating: 4.5}
+          - {movieId: 1, rating: 5.0}
+          - {movieId: 2, rating: 3.0}
+          - {movieId: 2, rating: 3.5}
+          - {movieId: 3, rating: 4.0}
+          - {movieId: 3, rating: 4.5}
+          - {movieId: 4, rating: 2.0}
+          - {movieId: 4, rating: 2.5}
+
+      - input: ref('movies_raw_to_curate')
+        rows:
+          - {id: 1, title: 'Movie A'}
+          - {id: 2, title: 'Movie B'}
+          - {id: 3, title: 'Movie C'}
+          - {id: 4, title: 'Movie D'}
+
+    expect:
+      rows:
+        - {movie_id: 1, title: 'Movie A', number_of_ratings: 2, median_rating: 4.5, rank: 1}
+        - {movie_id: 3, title: 'Movie C', number_of_ratings: 2, median_rating: 4.0, rank: 2}
+        - {movie_id: 2, title: 'Movie B', number_of_ratings: 2, median_rating: 3.0, rank: 3}
+        - {movie_id: 4, title: 'Movie D', number_of_ratings: 2, median_rating: 2.0, rank: 4}

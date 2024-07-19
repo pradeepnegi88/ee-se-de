@@ -1,0 +1,23 @@
+models:
+  - name: movie_ratings_pres
+    columns:
+      - name: movie_id
+        description: The unique identifier for each movie.
+        data_type: numeric
+
+      - name: title
+        description: The title of the movie.
+        data_type: string
+      
+      - name: number_of_ratings
+        description: The total number of ratings that each movie has received.
+        data_type: numeric
+       
+      - name: median_rating
+        description: The median rating of a movie.
+        data_type: numeric
+  
+      - name: rank
+        description: The rank of a movie based on its median rating.
+        data_type: int64
+     

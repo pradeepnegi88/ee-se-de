@@ -1,0 +1,62 @@
+version: 2
+unit_tests:
+  - name: type cast all the attributes in movies_raw_to_curate 
+    description: "Check all fields are cast properly"
+    model: movies_raw_to_curate
+    given:
+      - input: source('movies_data_pradeep', 'movies_raw')
+        rows:
+          - {adult: "TRUE", 
+             budget: "155000000",
+             homepage: "http://www.terminatormovie.com/",
+             belongs_to_collection: "{\"id\": 435347, \"name\": \"男はつらいよ シリーズ\", \"poster_path\": \"/k4gM0LHFIqcrMui0E96UcFFjRmK.jpg\", \"backdrop_path\": \"/rYzWYGF0uZ5jWGHsIoRoGUOdpoi.jpg\"}",
+             genres: "[{'id': 12, 'name': 'Adventure'}, {'id': 18, 'name': 'Drama'}, {'id': 10402, 'name': 'Music'}]",
+             spoken_languages: "[{'iso_639_1': 'en', 'name': 'English'}, {'iso_639_1': 'pt', 'name': 'Português'}]",
+             release_date: "2015-06-23",
+             revenue: "440603537",
+             runtime: "126",
+             status: "Released",
+             tagline: "Reset the future",
+             title: "Terminator Genisys",
+             video: "false",
+             vote_average: "5.8",
+             vote_count: "3677",
+             id: "87101",
+             imdb_id: "tt1340138",
+             original_language: "en",
+             original_title: "Terminator Genisys",
+             overview: "The year is 2029. John Connor, leader of the resistance continues the war against the machines...",
+             popularity: "30.188198",
+             poster_path: "/5JU9ytZJyR3zmClGmVm9q4Geqbd.jpg",
+             production_companies: "[{'name': 'La Volpe', 'id': 74679}]",
+             production_countries: "[{'iso_3166_1': 'IT', 'name': 'Italy'}]"
+            }
+    expect:
+      rows:
+        - { 
+            adult: true, 
+            budget: 155000000, 
+            homepage: "http://www.terminatormovie.com/",
+            belongs_to_collection: {"id":435347,"name":"男はつらいよ シリーズ","poster_path":"/k4gM0LHFIqcrMui0E96UcFFjRmK.jpg","backdrop_path": "/rYzWYGF0uZ5jWGHsIoRoGUOdpoi.jpg"},
+            genres: [ '{"id":12,"name":"Adventure"}', '{"id":18,"name":"Drama"}', '{"id":10402,"name":"Music"}' ],
+            spoken_languages: [ '{"iso_639_1":"en","name":"English"}','{"iso_639_1":"pt","name":"Português"}' ],
+            release_date: "2015-06-23",
+            revenue: 440603537,
+            runtime: 126,
+            status: "Released",
+            tagline: "Reset the future",
+            title: "Terminator Genisys",
+            video: false,
+            vote_average: 5.8,
+            vote_count: 3677,
+            id: 87101,
+            imdb_id: "tt1340138",
+            original_language: "en",
+            original_title: "Terminator Genisys",
+            overview: "The year is 2029. John Connor, leader of the resistance continues the war against the machines...",
+            popularity: 30.188198,
+            poster_path: "/5JU9ytZJyR3zmClGmVm9q4Geqbd.jpg",
+            production_companies: [ '{"name":"La Volpe","id":74679}' ],
+            production_countries: [ '{"iso_3166_1":"IT","name":"Italy"}' ]
+          }
+
