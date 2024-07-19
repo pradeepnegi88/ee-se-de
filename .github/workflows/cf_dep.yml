@@ -1,30 +1,133 @@
-# name: Deploy Cloud Function
+# # name: Deploy Cloud Function
 
-# on: [push]
+# # on: [push]
 
-# jobs:
-#   test:
-#     name: Run Tests
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
+# # jobs:
+# #   test:
+# #     name: Run Tests
+# #     runs-on: ubuntu-latest
+# #     steps:
+# #       - name: Checkout code
+# #         uses: actions/checkout@v2
 
-#       - name: Set up Cloud SDK
-#         uses: google-github-actions/setup-gcloud@v1
-#         with:
-#           project_id: ${{ secrets.GCP_PROJECT_ID }}
-#           service_account_key: ${{ secrets.GCP_SA_KEY }}
+# #       - name: Set up Cloud SDK
+# #         uses: google-github-actions/setup-gcloud@v1
+# #         with:
+# #           project_id: ${{ secrets.GCP_PROJECT_ID }}
+# #           service_account_key: ${{ secrets.GCP_SA_KEY }}
 
-#       - name: Deploy Cloud Function
-#         run: |
-#           gcloud functions deploy load_csv_to_bigquery \
-#             --runtime python310 \
-#             --trigger-resource se-data-landing-pradeep \
-#             --trigger-event google.storage.object.finalize \
-#             --entry-point load_csv_to_bigquery \
-#             --set-env-vars DATASET_ID=ee-india-se-data.movies_data_pradeep,TABLE_ID=movies_raw \
-#             --source .
+# #       - name: Deploy Cloud Function
+# #         run: |
+# #           gcloud functions deploy load_csv_to_bigquery \
+# #             --runtime python310 \
+# #             --trigger-resource se-data-landing-pradeep \
+# #             --trigger-event google.storage.object.finalize \
+# #             --entry-point load_csv_to_bigquery \
+# #             --set-env-vars DATASET_ID=ee-india-se-data.movies_data_pradeep,TABLE_ID=movies_raw \
+# #             --source .
+# # name: Deploy Cloud Function
+
+# # on:
+# #   push:
+# #     branches:
+# #       - master
+
+# # jobs:
+# #   deploy:
+# #     runs-on: ubuntu-latest
+# #     steps:
+# #       - name: Checkout code
+# #         uses: actions/checkout@v2
+
+# #       - name: Set up Cloud SDK
+# #         uses: google-github-actions/setup-gcloud@v1
+# #         with:
+# #           project_id: ${{ secrets.GCP_PROJECT_ID }}
+# #           service_account_key: ${{ secrets.GCP_SA_KEY }}
+
+# #       - name: Authenticate with Google Cloud
+# #         run: |
+# #           echo ${{ secrets.GCP_SA_KEY }} | base64 -d > /tmp/key.json
+# #           gcloud auth activate-service-account --key-file=/tmp/key.json
+
+# #       - name: Deploy Cloud Function
+# #         run: |
+# #           gcloud functions deploy load_csv_to_bigquery \
+# #             --runtime python310 \
+# #             --trigger-resource se-data-landing-pradeep \
+# #             --trigger-event google.storage.object.finalize \
+# #             --entry-point load_csv_to_bigquery \
+# #             --set-env-vars DATASET_ID=ee-india-se-data.movies_data_pradeep,TABLE_ID=movies_raw \
+# #             --source .
+# # name: Deploy Cloud Function
+
+# # on:
+# #   push:
+# #     branches:
+# #       - master
+
+# # jobs:
+# #   deploy:
+# #     runs-on: ubuntu-latest
+# #     steps:
+# #       - name: Checkout code
+# #         uses: actions/checkout@v2
+
+# #       - name: Set up Cloud SDK
+# #         uses: google-github-actions/setup-gcloud@v1
+# #         with:
+# #           project_id: ${{ secrets.GCP_PROJECT_ID }}
+# #           service_account_key: ${{ secrets.GCP_SA_KEY }}
+
+# #       - name: Authenticate with Google Cloud
+# #         run: |
+# #           echo ${{ secrets.GCP_SA_KEY }} | base64 -d > /tmp/key.json
+# #           gcloud auth activate-service-account --key-file=/tmp/key.json
+
+# #       - name: Set gcloud config
+# #         run: |
+# #           gcloud config set account pradeep.negi@equalexperts.com
+
+# #       - name: Deploy Cloud Function
+# #         run: |
+# #           gcloud functions deploy load_csv_to_bigquery \
+# #             --runtime python310 \
+# #             --trigger-resource se-data-landing-pradeep \
+# #             --trigger-event google.storage.object.finalize \
+# #             --entry-point load_csv_to_bigquery \
+# #             --set-env-vars DATASET_ID=ee-india-se-data.movies_data_pradeep,TABLE_ID=movies_raw \
+# #             --source .
+
+# # name: Deploy Cloud Function
+
+# # on:
+# #   push:
+# #     branches:
+# #       - master
+
+# # jobs:
+# #   deploy:
+# #     runs-on: ubuntu-latest
+# #     steps:
+# #       - name: Checkout code
+# #         uses: actions/checkout@v2
+
+    
+# #       - name: Authenticate to Google Cloud
+# #         uses: google-github-actions/auth@v1
+# #         with:
+# #           credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+# #       - id: 'deploy'
+# #         uses: 'google-github-actions/deploy-cloud-functions@v3'
+# #         with:
+# #           name: 'load_csv_to_bigquery'
+# #           runtime: 'python310'
+# #           entry_point: 'load_csv_to_bigquery'
+# #           trigger_event: 'google.storage.object.finalize'
+# #           trigger_resource: 'projects/${{ secrets.GCP_PROJECT_ID }}/buckets/se-data-landing-pradeep'
+# #           env_vars: 'DATASET_ID=ee-india-se-data.movies_data_pradeep,TABLE_ID=movies_raw'
+# #           source_dir: '.'
 # name: Deploy Cloud Function
 
 # on:
@@ -38,80 +141,6 @@
 #     steps:
 #       - name: Checkout code
 #         uses: actions/checkout@v2
-
-#       - name: Set up Cloud SDK
-#         uses: google-github-actions/setup-gcloud@v1
-#         with:
-#           project_id: ${{ secrets.GCP_PROJECT_ID }}
-#           service_account_key: ${{ secrets.GCP_SA_KEY }}
-
-#       - name: Authenticate with Google Cloud
-#         run: |
-#           echo ${{ secrets.GCP_SA_KEY }} | base64 -d > /tmp/key.json
-#           gcloud auth activate-service-account --key-file=/tmp/key.json
-
-#       - name: Deploy Cloud Function
-#         run: |
-#           gcloud functions deploy load_csv_to_bigquery \
-#             --runtime python310 \
-#             --trigger-resource se-data-landing-pradeep \
-#             --trigger-event google.storage.object.finalize \
-#             --entry-point load_csv_to_bigquery \
-#             --set-env-vars DATASET_ID=ee-india-se-data.movies_data_pradeep,TABLE_ID=movies_raw \
-#             --source .
-# name: Deploy Cloud Function
-
-# on:
-#   push:
-#     branches:
-#       - master
-
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
-
-#       - name: Set up Cloud SDK
-#         uses: google-github-actions/setup-gcloud@v1
-#         with:
-#           project_id: ${{ secrets.GCP_PROJECT_ID }}
-#           service_account_key: ${{ secrets.GCP_SA_KEY }}
-
-#       - name: Authenticate with Google Cloud
-#         run: |
-#           echo ${{ secrets.GCP_SA_KEY }} | base64 -d > /tmp/key.json
-#           gcloud auth activate-service-account --key-file=/tmp/key.json
-
-#       - name: Set gcloud config
-#         run: |
-#           gcloud config set account pradeep.negi@equalexperts.com
-
-#       - name: Deploy Cloud Function
-#         run: |
-#           gcloud functions deploy load_csv_to_bigquery \
-#             --runtime python310 \
-#             --trigger-resource se-data-landing-pradeep \
-#             --trigger-event google.storage.object.finalize \
-#             --entry-point load_csv_to_bigquery \
-#             --set-env-vars DATASET_ID=ee-india-se-data.movies_data_pradeep,TABLE_ID=movies_raw \
-#             --source .
-
-# name: Deploy Cloud Function
-
-# on:
-#   push:
-#     branches:
-#       - master
-
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
-
     
 #       - name: Authenticate to Google Cloud
 #         uses: google-github-actions/auth@v1
@@ -124,57 +153,45 @@
 #           name: 'load_csv_to_bigquery'
 #           runtime: 'python310'
 #           entry_point: 'load_csv_to_bigquery'
-#           trigger_event: 'google.storage.object.finalize'
-#           trigger_resource: 'projects/${{ secrets.GCP_PROJECT_ID }}/buckets/se-data-landing-pradeep'
-#           env_vars: 'DATASET_ID=ee-india-se-data.movies_data_pradeep,TABLE_ID=movies_raw'
 #           source_dir: '.'
-name: Deploy Cloud Function
-
-on:
-  push:
-    branches:
-      - master
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-    
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v1
-        with:
-          credentials_json: ${{ secrets.GCP_SA_KEY }}
-
-      - id: 'deploy'
-        uses: 'google-github-actions/deploy-cloud-functions@v3'
-        with:
-          name: 'load_csv_to_bigquery'
-          runtime: 'python310'
-          entry_point: 'load_csv_to_bigquery'
-          source_dir: '.'
-          region: 'us-central1'
-          universe: 'googleapis.com'
-          environment: 'GEN_2'
-          all_traffic_on_latest_revision: true
-          ingress_settings: 'ALLOW_ALL'
-          service_timeout: '60s'
-          vpc_connector_egress_settings: 'PRIVATE_RANGES_ONLY'
-          event_trigger_retry: true
-          event_trigger_filters: '[{"attribute": "bucket", "value": "se-data-landing-pradeep"}]'
-          event_trigger_type: 'google.storage.object.finalize'
-        env:
-          CLOUDSDK_CORE_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
+#           region: 'us-central1'
+#           universe: 'googleapis.com'
+#           environment: 'GEN_2'
+#           all_traffic_on_latest_revision: true
+#           ingress_settings: 'ALLOW_ALL'
+#           service_timeout: '60s'
+#           vpc_connector_egress_settings: 'PRIVATE_RANGES_ONLY'
+#           event_trigger_retry: true
+#           event_trigger_filters: '[{"attribute": "bucket", "value": "se-data-landing-pradeep"}]'
+#           event_trigger_type: 'google.storage.object.finalize'
+#         env:
+#           CLOUDSDK_CORE_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
 
 
 
-# gcloud functions deploy load_csv_to_bigquery \
-#     --runtime python310 \
-#     --trigger-resource se-data-landing-pradeep \
-#     --trigger-event google.storage.object.finalize \
-#     --entry-point load_csv_to_bigquery \
-#     --set-env-vars DATASET_ID=movies_data_pradeep,TABLE_ID=movies_raw \
-#     --project ee-india-se-data \
-#     --source .
+# # gcloud functions deploy load_csv_to_bigquery \
+# #     --runtime python310 \
+# #     --trigger-resource se-data-landing-pradeep \
+# #     --trigger-event google.storage.object.finalize \
+# #     --entry-point load_csv_to_bigquery \
+# #     --set-env-vars DATASET_ID=movies_data_pradeep,TABLE_ID=movies_raw \
+# #     --project ee-india-se-data \
+# #     --source .
 
+
+
+# # gcloud functions deploy load_csv_to_bigquery \
+# #     --runtime python310 \
+# #     --trigger-resource se-data-landing-pradeep \
+# #     --trigger-event google.storage.object.finalize \
+# #     --entry-point load_csv_to_bigquery \
+# #     --set-env-vars DATASET_ID=movies_data_pradeep,TABLE_ID=movies_raw \
+# #     --project ee-india-se-data \
+# #     --memory 512MB \
+# #     --source .
+
+
+# # cd cloud_function
+# #zip -r ../cloud_function.zip .
+# # python3 -m venv venv
+# # source venv/bin/activate

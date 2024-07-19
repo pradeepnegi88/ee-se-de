@@ -1,4 +1,71 @@
-.terraform
+**.terraform
+**venv
+venv/
+# Ignore directories
+.terraform/
 
+# Ignore Terraform state files
+*.tfstate
+*.tfstate.backup
 
+# Ignore Terraform plan output
+terraform.tfplan
+
+# Ignore sensitive variable files
+*.auto.tfvars
+*.tfvars
+
+# Ignore override files
+*.override.tf
+
+# Ignore provider credentials and secrets
+*.tfvars
+
+# Ignore local configuration files
+.terraformrc
+.terraformrc.json
+
+# Ignore compiled dbt artifacts
+target/
+
+# Ignore dbt logs
+dbt_logs/
+
+# Ignore dbt packages
+packages/
+
+# Ignore dbt environment files (e.g., profiles.yml)
+*.yml
+
+# Ignore dbt compiled SQL files (generated in dbt_modules/)
+dbt_modules/**/*.sql
+
+# Ignore dbt run results or outputs
+dbt_run_results/
+
+# Ignore dbt resources and other directories
+models/generated/
+models/schema.yml
+models/*.yml
+
+# Ignore dbt environment files for specific environments
+# Example: Replace <environment_name> with your environment name
+profiles/<environment_name>.yml
+
+# Ignore local dbt configurations that may vary between users
+dbt_project.yml.local
+
+# Ignore any local development files not meant for sharing
+*.env
+
+# Ignore IDE specific files
+.idea/
+*.iml
+
+# Ignore editor specific files
+.vscode/
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
 
